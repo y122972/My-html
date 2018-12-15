@@ -1,0 +1,28 @@
+文章
+相册？
+article表：
+    id
+    title
+    front
+    content
+    author
+    time
+    label
+navigation:
+    id
+    name
+    link
+links:
+    id
+    name
+    link
+comment:
+    id 
+    articleId
+    content
+    ip
+    time
+    floor
+    reply //回复的楼层数
+    like
+    deleted

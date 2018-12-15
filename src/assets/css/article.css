@@ -1,0 +1,45 @@
+.content .img {
+  width: 35%;
+  margin: 15px auto;
+  text-align: center;
+}
+
+.content .img img {
+  width: 100%;
+}
+
+.content .img .img-desc {
+  color: #999;
+  font-size: 15px;
+  font-family: 宋体;
+  line-height: 25px;
+}
+
+.content strong {
+  font-weight: bold;
+}
+
+.content em {
+  font-style: oblique;
+}
+
+.content a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.content a:hover {
+  color: rgb(2, 133, 21)
+}
+
+.content .reference {
+  border-left: 3px solid rgb(2, 133, 21);
+  padding-left: 20px;
+  color: rgb(100, 100, 100);
+  background: #eee;
+}
+
+.el-pagination {
+  text-align: center;
+  margin-top: 20px;
+}
