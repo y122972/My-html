@@ -201,6 +201,9 @@ export default {
         }
     },
     methods: {
+        scrollHandle(){
+            console.log(123123123)
+        },
         pageChange (page) {
             console.log(page)
             this.getList(page - 1)
@@ -458,10 +461,14 @@ export default {
                         )
                     }
                 } else {
-                    this.$message({
-                        message: "不可！",
-                        type: "warning"
-                    })
+                    if(toolname === "换行"){
+                        this.mainCon.appendChild(waitingIns)
+                    } else {
+                        this.$message({
+                            message: "不可！",
+                            type: "warning"
+                        })
+                    }
                 }
             } else if (toolname === "图片") {
                 this.setDialog(1, "插入图片")
@@ -494,6 +501,18 @@ export default {
         //         type: 'success'
         //     })
         // },10000)
+        document.onscroll=()=>{
+            console.log(document.documentElement.scrollTop)
+
+            if(document.documentElement.scrollTop>90){
+                 document.querySelector('.tools-bar').style.top='70px'
+                document.querySelector('.tools-bar').classList.add('fixed')
+                
+            } else {
+                document.querySelector('.tools-bar').classList.remove('fixed')
+                document.querySelector('.tools-bar').style.top=`${160-document.documentElement.scrollTop}px`
+            }
+        }
     }
 } 
 </script>
@@ -515,11 +534,17 @@ export default {
     font-weight: bold;
 }
 .tools-bar {
-    margin-top: 30px;
-    width: 100%;
+    position: fixed;
+    top: 160px;
+    width: 58%;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     padding: 5px;
+    background: #fff;
+}
+.tools-bar.fixed {
+    box-shadow: 0px 0px 20px #bbb;
+    border: 1px solid #fff;
 }
 .tools-bar ul {
     height: 30px;
@@ -552,7 +577,7 @@ textarea {
     width: 100%;
     border: 1px solid rgb(2, 133, 21);
     outline: none;
-    margin-top: 30px;
+    margin-top: 70px;
     padding: 15px;
     white-space: pre-wrap;
     word-break: break-all;
