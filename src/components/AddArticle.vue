@@ -511,6 +511,7 @@ export default {
             } else {
                 document.querySelector('.tools-bar').classList.remove('fixed')
                 document.querySelector('.tools-bar').style.top=`${160-document.documentElement.scrollTop}px`
+                
             }
         }
     }
