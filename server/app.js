@@ -6,6 +6,9 @@ const db = require('./models/database')
 const articleCtrlRouter = require('./controllers/articleCtrl')
 const bodyParser = require('body-parser')
 
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 //app.use(multer()); // for parsing multipart/form-data
