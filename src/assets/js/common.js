@@ -7,7 +7,7 @@ export default (function (env){
 		// 使控制台 console 输出失效
 		console.log = console.warn = console.error = console.info = function(){}
 		envObj.env = '当前工程环境：production'
-		envObj.baseUrl = 'http://aisss.xyz'
+		envObj.baseUrl = 'http://aisss.xyz:3000'
 	} else if (env == 'development'){
 		envObj.env = '当前工程环境：development'
 		envObj.baseUrl = 'http://127.0.0.1:3000'
