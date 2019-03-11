@@ -18,11 +18,15 @@ const instance = axios.create({
       arrayFormat: 'repeat'
     })
   }],
-  headers: {
-    //'Content-Type': 'application/x-www-form-urlencoded'
+  // headers: {
+  //   'Content-Type': 'application/x-www-form-urlencoded'
 
-    'Content-Type': 'application/json;charset=UTF-8'
+  //   //'Content-Type': 'application/json;charset=UTF-8'
+  // },
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
   }
+
 })
 
 /**
@@ -31,21 +35,9 @@ const instance = axios.create({
 
 export const getNav = () => instance.get('/getNav')
 export const getLinks = () => instance.get('/getLinks')
-export const getArticle = params => instance.get('/getArticle', {
-  params
-})
-export const uploadArticle = params => instance.get('/uploadArticle', {
-  params
-})
-export const getArticleList = params => instance.get('/getArticleList', {
-  params
-})
-export const delArticle = params => instance.get('/delArticle', {
-  params
-})
-export const getComment = params => instance.get('/getComment', {
-  params
-})
-export const addComment = params => instance.get('/addComment', {
-  params
-})
+export const getArticle = params => instance.get('/getArticle', { params })
+export const uploadArticle = params => instance.post('/uploadArticle', params )
+export const getArticleList = params => instance.get('/getArticleList', { params })
+export const delArticle = params => instance.get('/delArticle', { params })
+export const getComment = params => instance.get('/getComment', { params })
+export const addComment = params => instance.get('/addComment', { params })

@@ -201,29 +201,26 @@ export default {
         }
     },
     methods: {
-        scrollHandle(){
-            console.log(123123123)
-        },
         pageChange (page) {
-            console.log(page)
+            //console.log(page)
             this.getList(page - 1)
         },
         async articleOperate (index, row, oprt) {
             // oprt == 0, Edite,else , delete
-            console.log(index, row, oprt)
+            //console.log(index, row, oprt)
             if (oprt === 0) {
                 // Edite
                 this.article.id = row.id
                 // Change current article id , so to updating instead of uploading
                 let result = await getArticle({ id: row.id })
-                console.log(result.data)
+                //console.log(result.data)
                 this.article.title = result.data[0].title
                 this.content = result.data[0].content
                 this.dialog.visible = false
             } else {
                 // delete 
                 let result = await delArticle({ id: row.id })
-                console.log(result.data)
+                //console.log(result.data)
                 this.$message({
                     message: result.data.msg,
                     type: 'success'
@@ -239,7 +236,7 @@ export default {
         },
         async getList (page = 0, pageSize = 10) {
             let result = await getArticleList({ page, pageSize })
-            console.log(result.data)
+            //console.log(result.data)
 
             this.articleList = result.data[0]
             this.article.total = result.data[1][0].total
@@ -254,7 +251,7 @@ export default {
                 author: "JM",
                 lebel: this.article.label
             })
-            console.log(result)
+            //console.log(result)
             if (!result.data.err) {
                 this.$message({
                     message: result.data.msg,
@@ -331,7 +328,7 @@ export default {
                 waitingIns.style.fontSize = "17px"
                 waitingIns.innerText = this.dialog.code
                 hljs.highlightBlock(waitingIns)
-                console.log(this.article.code)
+                //console.log(this.article.code)
                 if (this.selection.parentNode.nextSibling == null) {
                     this.mainCon.appendChild(waitingIns)
                 } else {
@@ -340,7 +337,7 @@ export default {
                         this.selection.parentNode.nextSibling
                     )
                 }
-                console.log("up?")
+                //console.log("up?")
             }
 
             [
@@ -378,7 +375,7 @@ export default {
             let selection = window.getSelection()
             // 获取被选中的文字区域
             let range = selection.getRangeAt(0)
-            console.log(range)
+            //console.log(range)
             // 获取区域对象
 
             //console.log(selection.toString())
@@ -489,8 +486,8 @@ export default {
                 this.setDialog(3, "文章列表")
                 this.getList()
             }
-            console.log("parent: ", this.selection.parentNode)
-            console.log("selected: ", this.selection.selectedNode)
+            //console.log("parent: ", this.selection.parentNode)
+            //console.log("selected: ", this.selection.selectedNode)
         }
     },
     mounted () {
@@ -502,7 +499,6 @@ export default {
         //     })
         // },10000)
         document.onscroll=()=>{
-            console.log(document.documentElement.scrollTop)
 
             if(document.documentElement.scrollTop>90){
                  document.querySelector('.tools-bar').style.top='70px'
