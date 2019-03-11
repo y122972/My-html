@@ -1,9 +1,11 @@
 import axios from 'axios'
 import qs from 'qs'
+import common from '../assets/js/common'
 
+console.info(common)
 
 const instance = axios.create({
-  baseURL: 'http://127.0.0.1:3000',
+  baseURL: common.baseUrl,
   timeout: 4000,
   withCredentials: true, // 跨域请求时是否需要使用凭证
   paramsSerializer: params => {
