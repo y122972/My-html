@@ -1,24 +1,16 @@
 <template>
     <div id="app" @click="mouseClick">
-        <AppHeader></AppHeader>
-        <div class="main">
-            <div class="content"
-                 :style="'minHeight: '+mainMinHeight+'px'">
-                <router-view></router-view>
-            </div>
-            <AppFooter></AppFooter>
-        </div>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
-import AppHeader from './components/Header'
-import AppFooter from './components/Footer'
+
 export default {
     name: "app",
     data () {
         return {
-            mainMinHeight: null,
+            
         };
     },
     methods: {
@@ -46,13 +38,8 @@ export default {
             //console.log(document.documentElement.scrollTop)
         }
     },
-    components: {
-        AppHeader,
-        AppFooter
-    },
-    mounted () {
-        this.mainMinHeight = window.innerHeight - this.$store.state.headerHeight
-    }
+    
+    
 };
 </script>
     
@@ -60,9 +47,7 @@ export default {
 #app {
     overflow: hidden;
 }
-.main {
-    margin-top: 80px;
-}
+
 .mouse-click {
     border-radius: 50%;
     width: 40px;

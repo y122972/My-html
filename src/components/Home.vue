@@ -46,7 +46,8 @@ export default {
             this.total = result.data[1][0].total
         },
         toArticle (id, title) {
-            console.log(id)
+            console.log(id,title,'to article')
+            console.log(this.list)
             this.$router.push({
                 name: 'article',
                 params: { title },
@@ -55,10 +56,8 @@ export default {
         }
     },
     mounted () {
-        console.log(new Date(1542940962100).toDateString())
-        console.log(new Date().getTime())
         this.getList()
-        console.log(this.list, '1111111111111')
+        console.log(this.list, 'list')
     }
 }
 </script>
