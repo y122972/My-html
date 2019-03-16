@@ -1,9 +1,9 @@
-const express=require('express');
+const express=require('express')
 const path=require('path')
-const router=express.Router();
+const router=express.Router()
 const db = require('../models/database')
 
-module.exports=router;
+module.exports=router
 
 router.post('/uploadArticle', function (req, res) {
     let mtd = ''
