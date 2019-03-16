@@ -5,6 +5,20 @@ const db = require('../models/database')
 
 module.exports=router
 
+
+router.use('/',(req,res,next)=>{
+    console.log('sessionid',req.session.sessionid)
+    if(!req.session.sessionid){
+        res.send({
+            err: 1,
+            msg: 'No permission!'
+        })
+    } else {
+        next()
+    }
+    
+})
+
 router.post('/uploadArticle', function (req, res) {
     let mtd = ''
     if (req.body.id == '') {

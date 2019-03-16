@@ -9,6 +9,7 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'highlight.js/styles/monokai.css' //样式文件
+import './permission'
 
 // Vue.directive('highlight', function (el) {
 //     el.style.fontFamily="Consolas, 'Courier New', monospace"

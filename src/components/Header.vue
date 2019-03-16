@@ -30,6 +30,10 @@ export default {
         async getNav () {
             let result = await getNav()
             this.list = result.data
+            this.list.push({
+                link: "/login",
+                name: "Login",
+            })
         }
     },
     mounted () {

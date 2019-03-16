@@ -99,7 +99,7 @@
 
 <script>
 import hljs from "highlight.js"
-import { uploadArticle, getArticleList, getArticle, delArticle } from "../api"
+import { uploadArticle, getArticleList, getArticle, delArticle,getPermission } from "../api"
 export default {
     name: "AddArticle",
     data () {
@@ -258,6 +258,11 @@ export default {
                     type: "success"
                 })
                 this.article.id = result.data.id
+            } else {
+                this.$message({
+                    message: result.data.msg,
+                    type: "warning"
+                })
             }
         },
         dialogConfirm () {
@@ -488,9 +493,14 @@ export default {
             }
             //console.log("parent: ", this.selection.parentNode)
             //console.log("selected: ", this.selection.selectedNode)
-        }
+        },
+        // async getPermission(){
+        //     let res = await getPermission({})
+        //     console.log(res)
+        // }
     },
     mounted () {
+        //this.getPermission()
         this.mainCon = document.querySelector(".main-content")
         // this.autoSave=setInterval(()=>{
         //     this.$message({

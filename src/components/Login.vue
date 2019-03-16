@@ -1,40 +1,90 @@
 <template>
     <div class="main">
-        <el-radio-group v-model="labelPosition" size="small">
-            <el-radio-button label="left">左对齐</el-radio-button>
-            <el-radio-button label="right">右对齐</el-radio-button>
-            <el-radio-button label="top">顶部对齐</el-radio-button>
-        </el-radio-group>
-        <div style="margin: 20px;"></div>
-        <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
-            <el-form-item label="名称">
-                <el-input v-model="formLabelAlign.name"></el-input>
+        
+        <el-form label-position="right" label-width="80px" :model="loginData">
+            <el-form-item label="用户名">
+                <el-input v-model="loginData.name" @focus="tipMsg=''"></el-input>
             </el-form-item>
-            <el-form-item label="活动区域">
-                <el-input v-model="formLabelAlign.region"></el-input>
-            </el-form-item>
-            <el-form-item label="活动形式">
-                <el-input v-model="formLabelAlign.type"></el-input>
+            <el-form-item label="密码">
+                <el-input v-model="loginData.pwd" type="password" @focus="tipMsg=''"></el-input>
             </el-form-item>
         </el-form>
+        <div class="buttonWrapper">
+            <el-button @click="loginHandle" :disabled="cantClick" class="button" type="success" round>登 录</el-button>
+        </div>
+        <div class="tipMsg">
+            <p class="msg">{{ tipMsg }}</p>
+        </div>
     </div>
 </template>
 
 <script>
+    import {login} from '../api'
     export default {
         data() {
             return {
-                labelPosition: 'right',
-                formLabelAlign: {
+                loginData: {
                     name: '',
-                    region: '',
-                    type: ''
+                    pwd: '',
+                },
+                tipMsg: '',
+            }
+        },
+        methods: {
+            async loginHandle() {
+                console.log(this.loginData.name,this.loginData.pwd)
+                if(!this.loginData.name||!this.loginData.pwd)
+                this.tipMsg='Logining...'
+                let data={
+                    name: this.loginData.name,
+                    pwd: this.loginData.pwd
                 }
+                this.loginData.pwd=''
+                let res = await login(data)
+                if(!res.data.err) {
+                    this.$router.go(-1)
+                } else {
+                    this.tipMsg=res.data.msg
+                }
+            }
+        },
+        computed: {
+            cantClick() {
+                if(!this.loginData.name||!this.loginData.pwd)
+                    return true
+                return false
             }
         },
     }
 </script>
 
 <style scoped>
+.main {
+    width: 30%;
+    margin: 0 auto;
+    min-width: 400px;
+    margin-top: 100px;
+    border: 1px solid rgb(2,133,21);
+    border-radius: 10px;
+    padding: 50px;
+}
+
+.buttonWrapper {
+    width: 100%;
+    margin-top: 40px;
+}
+.button {
+    margin: 0 auto;
+    display: block;
+}
+.tipMsg {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    color: rgb(2,133,21);
+    margin-top: 10px;
+
+}
 
 </style>

@@ -43,3 +43,5 @@ export const getArticleList = params => instance.get('/getArticleList', { params
 export const delArticle = params => instance.get('/delArticle', { params })
 export const getComment = params => instance.get('/getComment', { params })
 export const addComment = params => instance.get('/addComment', { params })
+export const login = params => instance.post('/login',  params )
+export const getPermission = params => instance.get('/getPermission',  { params } )

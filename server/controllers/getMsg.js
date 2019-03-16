@@ -42,6 +42,13 @@ router.get('/addComment', (req, res) => {
 router.get('/getNav', function (req, res) {
     console.log('getNav')
     db.query('select * from navigation', [], rows => {
+        console.log(req.session.sessionid,'sessionid')
+        if(req.session.sessionid){
+            rows.push({
+                name: 'AddArticle',
+                link: '/addArticle'
+            })
+        }
         res.send(rows)
     })
 
@@ -51,6 +58,7 @@ router.get('/getNav', function (req, res) {
 router.get('/getLinks', function (req, res) {
     console.log('getLinks')
     db.query('select * from links', [], rows => {
+        
         res.send(rows)
     })
 

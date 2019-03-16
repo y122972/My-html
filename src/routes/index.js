@@ -27,7 +27,7 @@ export const routes = [ {
         path: '/',
         component: Home
     }, {
-        path: '/y122972/addarticle',
+        path: '/addarticle',
         component: AddArticle
     }, ]
     }, {

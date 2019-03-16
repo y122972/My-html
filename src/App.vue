@@ -16,7 +16,6 @@ export default {
     methods: {
         mouseClick(event){
             let newClick=document.createElement('div')
-            console.log(event.clientX,event.clientY)
             newClick.className='mouse-click'
             newClick.style=`border-radius: 50%;
                             width: 4px;
