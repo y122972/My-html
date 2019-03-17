@@ -197,13 +197,16 @@ export default {
                     name: "xiazai",
                     desc: "修改文章"
                 }
-            ]
+            ],
+            listPage: 0
         }
     },
     methods: {
         pageChange (page) {
             //console.log(page)
+            this.listPage=page
             this.getList(page - 1)
+
         },
         async articleOperate (index, row, oprt) {
             // oprt == 0, Edite,else , delete
@@ -225,7 +228,7 @@ export default {
                     message: result.data.msg,
                     type: 'success'
                 })
-                this.getList()
+                this.getList(this.listPage-1)
             }
         },
         err (msg) {
@@ -518,6 +521,7 @@ export default {
                     document.querySelector('.tools-bar').classList.remove('fixed')
                     document.querySelector('.tools-bar').style.top=`${160-document.documentElement.scrollTop}px`
                 }
+                
             }
         }
     }
