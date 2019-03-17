@@ -2,7 +2,7 @@ import router from './routes'
 
 
 router.beforeEach(async (to, from, next) => {
-    console.log('to',to,'from',from)
+    //console.log('to',to,'from',from)
     next()
     // //if ( getToken() ){ // 判断是否登录，成功登录
     // if ( 1 ){ // 判断是否登录，成功登录
@@ -34,6 +34,6 @@ router.beforeEach(async (to, from, next) => {
     // }
 })
 
-// router.afterEach(() => {
-//     NProgress.done() // 结束Progress
-// })
+router.afterEach(() => {
+    document.documentElement.scrollTop=0
+})
