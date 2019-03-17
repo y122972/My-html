@@ -8,6 +8,7 @@ const session = require('express-session')
 const articleCtrlRouter = require('./controllers/articleCtrl')
 const getMsgRouter = require('./controllers/getMsg')
 const loginRouter = require('./controllers/loginCtrl')
+const commentRouter = require('./controllers/commentCtrl')
 
 const bodyParser = require('body-parser')
 
@@ -41,11 +42,13 @@ app.all('*', function (req, res, next) {
 
 
 
-app.use('/',getMsgRouter)
+app.use('/get',getMsgRouter)
 
-app.use('/',loginRouter)
+app.use('/login',loginRouter)
 
-app.use('/',articleCtrlRouter)
+app.use('/admin',articleCtrlRouter)
+
+app.use('/comment',commentRouter)
 
 
 const server = app.listen(3000, function () {

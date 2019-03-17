@@ -4,7 +4,7 @@ const db = require('../models/database')
 
 module.exports = router
 
-router.post('/login',(req,res)=>{
+router.post('/',(req,res)=>{
     console.log(req.body)
     console.log('login: ',req.body.name,req.body.pwd)
     if(req.body.name==='qwe'&&req.body.pwd==='qwe') { // 用户名密码正确，给该客户端一个sessionid
