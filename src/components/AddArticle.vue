@@ -379,6 +379,20 @@ export default {
             this.dialog.title = title
         },
         setStyle (toolname) {
+
+            // 这几个任何时候都可以点击
+            if (toolname === "展示内容") {
+                this.setDialog(2, "展示内容")
+                this.dialog.code = this.mainCon.innerHTML
+                return
+            } else if (toolname === "上传") {
+                this.upload()
+                return 
+            } else if (toolname === "修改文章") {
+                this.setDialog(3, "文章列表")
+                this.getList()
+                return
+            }
             // 只能单独的段修改样式，不能跨段落，段以回div分隔
             let selection = window.getSelection()
             // 获取被选中的文字区域
@@ -482,18 +496,17 @@ export default {
             } else if (toolname === "清除格式") {
                 this.selection.selectedNode.style = ""
             } else if (toolname === "引用") {
-                this.selection.parentNode.className = "reference"
+
+                if(!this.selection.parentNode.className){
+                    this.selection.parentNode.className = "reference"
+                }
+                else {
+                    this.selection.selectedNode.classList.add('reference')
+                }
+                
             } else if (toolname === "代码") {
                 this.setDialog(2, "插入代码")
-            } else if (toolname === "展示内容") {
-                this.setDialog(2, "展示内容")
-                this.dialog.code = this.mainCon.innerHTML
-            } else if (toolname === "上传") {
-                this.upload()
-            } else if (toolname === "修改文章") {
-                this.setDialog(3, "文章列表")
-                this.getList()
-            }
+            } 
             //console.log("parent: ", this.selection.parentNode)
             //console.log("selected: ", this.selection.selectedNode)
         },
@@ -547,12 +560,13 @@ export default {
 .tools-bar {
     position: fixed;
     top: 160px;
-    width: 58%;
+    width: calc(60% - 40px);
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     padding: 5px;
     background: #fff;
 }
+
 .tools-bar.fixed {
     box-shadow: 0px 0px 20px #bbb;
     border: 1px solid #fff;
