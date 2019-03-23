@@ -10,6 +10,7 @@
             </div>
             <h1 class="title">{{$route.params.title}}</h1>
             <p class="time">{{new Date(article.time-0).toLocaleString()}}</p>
+            <Loading v-if="loading"></Loading>
             <div class="content">
                 <div class="mainText"
                      v-html="article.content"></div>
@@ -79,6 +80,7 @@
 
 <script>
 import { getArticle, getComment, addComment } from "../api";
+import Loading from './Loading'
 export default {
     name: "Article",
     data () {
@@ -88,7 +90,8 @@ export default {
             totalComment: 0,
             commentPageSize: 10,
             comment: [],
-            curCommentPage: 0
+            curCommentPage: 0,
+            loading: true,
         };
     },
     methods: {
@@ -128,10 +131,12 @@ export default {
             this.getComment(this.curCommentPage, this.commentPageSize)
         },
         async getArticle () {
+            this.loading=true
             let result = await getArticle({
                 id: this.$route.query.id
             })
             this.article = result.data[0]
+            this.loading=false
         }
     },
     created () {
@@ -139,6 +144,9 @@ export default {
     },
     mounted () {
         this.getArticle()
+    },
+    components: {
+        Loading,
     }
 };
 </script>

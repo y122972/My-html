@@ -11,6 +11,7 @@
                     <p class="time">{{new Date(item.time-0).toLocaleString()}}</p>
                 </li>
             </ul>
+            <Loading v-if="loading"></Loading> 
             <el-pagination background
                            layout="prev, next"
                            :total="total"
@@ -26,6 +27,7 @@
 <script>
 import { getArticleList } from '../api'
 import { mapGetters,mapActions } from 'vuex'
+import Loading from './Loading'
 export default {
     name: 'Home',
     data () {
@@ -34,6 +36,7 @@ export default {
             total: 0,
             pageSize: 10,
             curPage: 1,
+            loading: true,
         }
     },
     methods: {
@@ -42,6 +45,7 @@ export default {
         ]),
         pageChange (page) {
             console.log('curPage: ',page)
+            document.documentElement.scrollTop=0
             this.getList(page - 1)
             this.curPage=page
             this.setCurArticlePage({
@@ -49,7 +53,9 @@ export default {
             })
         },
         async getList (page = 0, pageSize = 10) {
+            this.loading=true
             let result = await getArticleList({ page, pageSize })
+            this.loading=false
             console.log('curPageArticle: ',result.data)
             this.list = result.data[0]
             this.total = result.data[1][0].total
@@ -75,6 +81,9 @@ export default {
         //  不能在这改变当前页，因为页面加载完就改变当前页el-pagination反应不过来，不知道总共有多少页啥的
         this.getList(this.curArticlePage-1)
         console.log(this.list, 'list')
+    },
+    components: {
+        Loading,
     }
 }
 </script>

@@ -32,6 +32,7 @@
                 </div>
                 <div v-if="dialog.visible4"
                      class="article-list">
+                     <Loading v-if="loading"></Loading>
                     <el-table :data="articleList"
                               style="width: 100%">
                         <el-table-column label="标题"
@@ -100,10 +101,12 @@
 <script>
 import hljs from "highlight.js"
 import { uploadArticle, getArticleList, getArticle, delArticle,getPermission } from "../api"
+import Loading from './Loading'
 export default {
     name: "AddArticle",
     data () {
         return {
+            loading: true,
             articleList: [],
             dialog: {
                 title: "插入",
@@ -238,9 +241,10 @@ export default {
             })
         },
         async getList (page = 0, pageSize = 10) {
+            this.loading=true
             let result = await getArticleList({ page, pageSize })
             //console.log(result.data)
-
+            this.loading=false
             this.articleList = result.data[0]
             this.article.total = result.data[1][0].total
         },
@@ -537,6 +541,9 @@ export default {
                 
             }
         }
+    },
+    components: {
+        Loading,
     }
 } 
 </script>
