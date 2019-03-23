@@ -565,6 +565,7 @@ export default {
     border-bottom: 1px solid #ccc;
     padding: 5px;
     background: #fff;
+    z-index: 1000;
 }
 
 .tools-bar.fixed {

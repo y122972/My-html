@@ -52,6 +52,7 @@ export default {
     left: 0;
     background: #fff;
     box-shadow: 0 3px 5px #ddd;
+    z-index: 1000;
 }
 .header .left {
     width: 25%;
