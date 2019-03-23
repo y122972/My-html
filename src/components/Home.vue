@@ -15,6 +15,7 @@
                            layout="prev, next"
                            :total="total"
                            :page-size="pageSize"
+                           :current-page="curPage"
                            @current-change="pageChange">
             </el-pagination>
         </div>
@@ -24,26 +25,35 @@
 
 <script>
 import { getArticleList } from '../api'
+import { mapGetters,mapActions } from 'vuex'
 export default {
     name: 'Home',
     data () {
         return {
             list: [],
             total: 0,
-            pageSize: 10
+            pageSize: 10,
+            curPage: 1,
         }
     },
     methods: {
+        ...mapActions([
+            'setCurArticlePage'
+        ]),
         pageChange (page) {
-            console.log(page)
+            console.log('curPage: ',page)
             this.getList(page - 1)
+            this.curPage=page
+            this.setCurArticlePage({
+                curPage: this.curPage
+            })
         },
         async getList (page = 0, pageSize = 10) {
             let result = await getArticleList({ page, pageSize })
-            console.log(result.data)
-
+            console.log('curPageArticle: ',result.data)
             this.list = result.data[0]
             this.total = result.data[1][0].total
+            this.curPage=page+1 //在这变
         },
         toArticle (id, title) {
             console.log(id,title,'to article')
@@ -55,8 +65,15 @@ export default {
             })
         }
     },
+    computed: {
+        ...mapGetters([
+            'curArticlePage'
+        ])
+    },
     mounted () {
-        this.getList()
+        // this.curPage=this.curArticlePage
+        //  不能在这改变当前页，因为页面加载完就改变当前页el-pagination反应不过来，不知道总共有多少页啥的
+        this.getList(this.curArticlePage-1)
         console.log(this.list, 'list')
     }
 }
