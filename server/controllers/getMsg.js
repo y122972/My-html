@@ -6,9 +6,22 @@ module.exports=router
 
 router.get('/getArticleList', (req, res) => {
     console.log('getList: ' + req.query.page + ',' + req.query.pageSize)
-    db.query('select id,title,front,time,label from article where deleted=0 order by time DESC limit ?,?;select count(*) as total from article where deleted=0', [req.query.page * req.query.pageSize - 0, req.query.pageSize - 0], rows => {
-        res.send(rows)
-    })
+    if(req.query.msg&&req.query.option){
+        let titleLike=`%${req.query.msg}%`,contentLike=`%${req.query.msg}%`
+        if(req.query.option=='title'){
+            contentLike=null
+        } else if(req.query.option=='content'){
+            titleLike=null
+        }
+        db.query('select id,title,front,time,label from article where deleted=0 and (title like ? or content like ?) order by time DESC limit ?,?;select count(*) as total from article where deleted=0 and (title like ? or content like ?)', [titleLike,contentLike,req.query.page * req.query.pageSize - 0, req.query.pageSize - 0,titleLike,contentLike], rows => {
+            res.send(rows)
+        })
+    } else {
+        db.query('select id,title,front,time,label from article where deleted=0 order by time DESC limit ?,?;select count(*) as total from article where deleted=0', [req.query.page * req.query.pageSize - 0, req.query.pageSize - 0], rows => {
+            res.send(rows)
+        })
+    }
+    
 })
   
 router.get('/getArticle', (req, res) => {

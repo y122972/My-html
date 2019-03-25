@@ -54,12 +54,14 @@ export default {
             })
         },
         async getList (page = 0, pageSize = 10) {
-            let result = await getArticleList({ page, pageSize })
+            let result = await getArticleList({ page, pageSize,msg: this.$route.query.msg,option: this.$route.query.option })
             this.loading=false
             console.log('curPageArticle: ',result.data)
             this.list = result.data[0]
             this.total = result.data[1][0].total
-            this.curPage=page+1 //在这变
+
+            this.curPage=page+1 //在这变当前页
+            
         },
         toArticle (id, title) {
             console.log(id,title,'to article')
@@ -84,7 +86,19 @@ export default {
     },
     components: {
         Loading,
-    }
+    },
+    watch: {
+        '$route' (to,from){
+            console.log(to)
+            if(!to.query.msg){
+                console.log('to /home')
+                this.getList(this.curArticlePage-1)
+            } else {
+                this.getList()
+            }
+            
+        }
+    },
 }
 </script>
 
