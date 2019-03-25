@@ -15,11 +15,13 @@
         <div class="tipMsg">
             <p class="msg">{{ tipMsg }}</p>
         </div>
+        <Loading></Loading>
     </div>
 </template>
 
 <script>
     import {login} from '../api'
+    import Loading from './Loading2.vue'
     export default {
         data() {
             return {
@@ -55,11 +57,14 @@
                 return false
             }
         },
+        components: {
+            Loading,
+        }
     }
 </script>
 
 <style scoped>
-.main {
+ .main /deep/{
     width: 30%;
     margin: 0 auto;
     min-width: 400px;
