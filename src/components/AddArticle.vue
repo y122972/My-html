@@ -529,18 +529,18 @@ export default {
         //     })
         // },10000)
         document.onscroll=()=>{
-            if(this.$route.path==='/addArticle'){
-                if(document.documentElement.scrollTop>90){
-                 document.querySelector('.tools-bar').style.top='70px'
-                document.querySelector('.tools-bar').classList.add('fixed')
-                
-                } else {
-                    document.querySelector('.tools-bar').classList.remove('fixed')
-                    document.querySelector('.tools-bar').style.top=`${160-document.documentElement.scrollTop}px`
-                }
-                
+            if(document.documentElement.scrollTop>90){
+                document.querySelector('.tools-bar').style.top='70px'
+            document.querySelector('.tools-bar').classList.add('fixed')
+            
+            } else {
+                document.querySelector('.tools-bar').classList.remove('fixed')
+                document.querySelector('.tools-bar').style.top=`${160-document.documentElement.scrollTop}px`
             }
         }
+    },
+    beforeDestroy(){
+        document.onscroll=null
     },
     components: {
         Loading,

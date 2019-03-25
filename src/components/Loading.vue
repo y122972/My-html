@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div class="main loading-text">
         <span>L </span>
         <span>o </span>
         <span>a </span>
@@ -19,6 +19,8 @@
             return {
                 curBig: 0,
                 scaleNum: 2.2,
+                limitTime: 5000,
+                timer: null,
             }
         },
         methods: {
@@ -29,19 +31,30 @@
             },
             unscale(node) {
                 node.style.transform='scale(1)'
-            }
+            },
+            
         },
         mounted () {
             let startTime=new Date().getTime()
             let list = document.querySelectorAll('span')
             let len = list.length
             this.scale(list[0])
-            let timer = setInterval(()=>{
+            this.timer = setInterval(()=>{
                 this.unscale(list[this.curBig])
                 this.curBig++
                 this.curBig%=len
+                console.log('---')
                 this.scale(list[this.curBig])
+                if(new Date().getTime()-startTime>this.limitTime) {
+                    clearInterval(this.timer)
+                    this.timer=null
+                    document.querySelector('.loading-text').innerHTML='加载失败，请刷新！'
+                }
             },200)
+        },
+        beforeDestroy(){
+            clearInterval(this.timer)
+            this.timer=null
         }
     }
 </script>

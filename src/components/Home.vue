@@ -46,6 +46,7 @@ export default {
         pageChange (page) {
             console.log('curPage: ',page)
             document.documentElement.scrollTop=0
+            this.loading=true
             this.getList(page - 1)
             this.curPage=page
             this.setCurArticlePage({
@@ -53,7 +54,6 @@ export default {
             })
         },
         async getList (page = 0, pageSize = 10) {
-            this.loading=true
             let result = await getArticleList({ page, pageSize })
             this.loading=false
             console.log('curPageArticle: ',result.data)
