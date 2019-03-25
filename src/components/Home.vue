@@ -54,6 +54,8 @@ export default {
             })
         },
         async getList (page = 0, pageSize = 10) {
+            this.loading=true
+            this.list=[]
             let result = await getArticleList({ page, pageSize,msg: this.$route.query.msg,option: this.$route.query.option })
             this.loading=false
             console.log('curPageArticle: ',result.data)
