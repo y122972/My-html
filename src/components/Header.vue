@@ -46,7 +46,7 @@ export default {
                 value: 'title',
                 label: '标题'
             }, {
-                value: 'cotent',
+                value: 'content',
                 label: '内容'
             }],
             optionValue: 'all',
