@@ -65,3 +65,12 @@ router.get('/getLinks', function (req, res) {
     })
 
 });
+
+router.get('/getAllLabels', function (req, res) {
+    console.log('getAllLabels')
+    db.query('select * from labels', [], rows => {
+        
+        res.send(rows)
+    })
+
+});

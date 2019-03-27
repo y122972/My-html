@@ -20,10 +20,9 @@ router.use('/',(req,res,next)=>{
 })
 
 router.post('/uploadArticle', function (req, res) {
-    let mtd = ''
     if (req.body.id == '') {
         //没传id，表示新上传
-        console.log(`upload: id=${req.body.id},title=${req.body.title}`)
+        console.log(`upload: id=${req.body.id},title=${req.body.title},label=${req.body.label}`)
         db.query('insert into article values(?,?,?,?,?,?,?,?)', [null, req.body.title, req.body.front, req.body.content, req.body.author, req.body.time, req.body.label, 0], rows => {
             res.json({
             msg: '上传成功！',
@@ -43,6 +42,7 @@ router.post('/uploadArticle', function (req, res) {
         })
     }
   });
+
 router.get('/delArticle', (req, res) => {
     console.log('delect: id = ' + req.query.id)
     db.query('update article set deleted=1 where id=?', [req.query.id - 0], rows => {
@@ -52,3 +52,13 @@ router.get('/delArticle', (req, res) => {
         })
     })
 })
+
+// router.get('/addLabels', (req, res) => {
+//     console.log('changeAllLabels')
+//     db.query('update article set deleted=1 where id=?', [req.query.id - 0], rows => {
+//         res.json({
+//             msg: '删除成功！',
+//             err: 0
+//         })
+//     })
+// })
