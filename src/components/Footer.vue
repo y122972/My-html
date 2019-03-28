@@ -4,7 +4,7 @@
             <div class="links">
                 <ul>
                     <li v-for="(item,key) in links" :key="key">
-                        <a href="/"><i :class="'iconfont icon-'+item.name"></i></a>
+                        <a :href="item.link" target="_blank"><i :class="'iconfont icon-'+item.name"></i></a>
                     </li>
                 </ul>
             </div>
@@ -25,7 +25,7 @@
             async getLinks(){
                 let result = await getLinks()
                 this.links=result.data
-                console.log(result.data)
+                console.log('footer list: ',result.data)
             }
         },
         mounted(){

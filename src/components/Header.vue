@@ -48,6 +48,9 @@ export default {
             }, {
                 value: 'content',
                 label: '内容'
+            }, {
+                value: 'label',
+                label: '标签'
             }],
             optionValue: 'all',
             searchShow: false,

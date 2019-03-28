@@ -6,7 +6,16 @@
                     :key="key"
                     class="item"
                     @click="toArticle(item.id,item.title)">
-                    <h3 class="title">{{item.title}}</h3>
+                    <div class="title-labels">
+                        <h3 class="title">{{item.title}}</h3>
+                        <dl class="labels">
+                            <dd class="label"
+                                v-for="(label,key) in item.labels"
+                                :key="key">
+                                {{label}}
+                            </dd>
+                        </dl>
+                    </div>
                     <p class="front">{{item.front}}</p>
                     <p class="time">{{new Date(item.time-0).toLocaleString()}}</p>
                 </li>
@@ -58,8 +67,13 @@ export default {
             this.list=[]
             let result = await getArticleList({ page, pageSize,msg: this.$route.query.msg,option: this.$route.query.option })
             this.loading=false
-            console.log('curPageArticle: ',result.data)
             this.list = result.data[0]
+            console.log('curPageArticle: ',result.data)
+            for(let key in this.list){
+                if(this.list[key].label)
+                    this.list[key].labels=this.list[key].label.split(',')
+            }
+            
             this.total = result.data[1][0].total
 
             this.curPage=page+1 //在这变当前页
@@ -129,9 +143,30 @@ export default {
 .main li:hover .time {
     color: rgb(2, 133, 21);
 }
+.main li:hover .labels dd {
+    border: 1px solid rgb(2,133,21);
+}
+.main li .title-labels::after {
+    content: '';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
 .main li .title {
     font-size: 23px;
     line-height: 30px;
+    float: left;
+}
+.main li .labels {
+    float: right;
+}
+.main li .labels dd {
+    font-size: 15px;
+    float: left;
+    padding: 5px 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 100px;
 }
 .main li .front {
     line-height: 25px;

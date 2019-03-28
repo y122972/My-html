@@ -1,15 +1,16 @@
 <template>
     <div>
         <div class="main">
+            <h1 class="title">{{$route.params.title}}</h1>
+            <p class="time">{{new Date(article.time-0).toLocaleString()}}</p>
             <div class="labels">
                 <ul>
                     <li v-for="(item,key) in article.labels"
                         :key="key"
-                        class="label">{{item}}</li>
+                        class="label"
+                        @click="searchLabel(item)">{{item}}</li>
                 </ul>
             </div>
-            <h1 class="title">{{$route.params.title}}</h1>
-            <p class="time">{{new Date(article.time-0).toLocaleString()}}</p>
             <Loading v-if="loading"></Loading>
             <div class="content">
                 <div class="mainText"
@@ -136,7 +137,18 @@ export default {
                 id: this.$route.query.id
             })
             this.article = result.data[0]
+            this.article.labels=this.article.label.split(',')
+            console.log('article',this.article)
             this.loading=false
+        },
+        searchLabel(label){
+            this.$router.push({
+                path: '/home',
+                query: {
+                    msg: label,
+                    option: 'label'
+                }
+            })
         }
     },
     created () {
@@ -166,6 +178,7 @@ export default {
     width: 100%;
     height: 40px;
     font-size: 14px;
+    margin-top: 20px;
 }
 .labels li {
     float: left;
@@ -193,7 +206,7 @@ export default {
     font-size: 19px;
 }
 .content {
-    margin-top: 30px;
+    margin-top: 20px;
     font-size: 17px;
     line-height: 30px;
     min-height: 500px;

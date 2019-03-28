@@ -72,6 +72,21 @@
                    v-model="article.title"
                    class="title"
                    placeholder="标题">
+            <el-select
+                v-model="selectedLabels"
+                multiple
+                filterable
+                allow-create
+                collapse-tags
+                @change="labelsChange"
+                placeholder="请选择文章标签">
+                    <el-option
+                    v-for="(item,key) in allLabels"
+                    :key="key"
+                    :label="item"
+                    :value="item">
+                    </el-option>
+            </el-select>
             <div class="tools-bar">
                 <ul>
                     <li class="tool"
@@ -100,12 +115,15 @@
 
 <script>
 import hljs from "highlight.js"
-import { uploadArticle, getArticleList, getArticle, delArticle,getPermission } from "../api"
+import { uploadArticle, getArticleList, getArticle, delArticle,getPermission,getAllLabels ,addNewLabels} from "../api"
 import Loading from './Loading'
 export default {
     name: "AddArticle",
     data () {
         return {
+            allLabels: [],
+            initAllLabels: [],
+            selectedLabels: [],
             loading: true,
             articleList: [],
             dialog: {
@@ -205,11 +223,24 @@ export default {
         }
     },
     methods: {
+        labelsChange(curLabel){
+            // 改变当前所有的label
+            let allLabels=new Set([...this.allLabels,...this.selectedLabels])
+            this.allLabels=[...allLabels]
+        },
         pageChange (page) {
             //console.log(page)
             this.listPage=page
             this.getList(page - 1)
 
+        },
+        async getAllLabels (){
+            let res = await getAllLabels()
+            res.data.forEach(item => {
+                this.allLabels.push(item.label)
+            })
+            this.initAllLabels=[...this.allLabels] //用于添加新label
+            console.log('all labels',res.data)
         },
         async articleOperate (index, row, oprt) {
             // oprt == 0, Edite,else , delete
@@ -249,6 +280,7 @@ export default {
             this.article.total = result.data[1][0].total
         },
         async upload () {
+            this.article.label=this.selectedLabels.join(',')
             let result = await uploadArticle({
                 id: this.article.id,
                 title: this.article.title,
@@ -256,9 +288,21 @@ export default {
                 front: this.mainCon.innerText.substring(0, 200),
                 content: this.mainCon.innerHTML,
                 author: "JM",
-                lebel: this.article.label
+                label: this.article.label
             })
             //console.log(result)
+            let newLabels=[]
+            for(let i=0;i<this.selectedLabels.length;i++){
+                if(!this.initAllLabels.includes(this.selectedLabels[i])){
+                    newLabels.push(this.selectedLabels[i])
+                }
+            }
+            if(newLabels.length){
+                await addNewLabels({
+                    newLabels 
+                })
+            }
+            console.log('selected labels:',this.selectedLabels,'new label(s)',newLabels)
             if (!result.data.err) {
                 this.$message({
                     message: result.data.msg,
@@ -528,6 +572,7 @@ export default {
         //         type: 'success'
         //     })
         // },10000)
+        this.getAllLabels()
         document.onscroll=()=>{
             if(document.documentElement.scrollTop>90){
                 document.querySelector('.tools-bar').style.top='70px'
@@ -535,7 +580,7 @@ export default {
             
             } else {
                 document.querySelector('.tools-bar').classList.remove('fixed')
-                document.querySelector('.tools-bar').style.top=`${160-document.documentElement.scrollTop}px`
+                document.querySelector('.tools-bar').style.top=`${200-document.documentElement.scrollTop}px`
             }
         }
     },
@@ -566,7 +611,7 @@ export default {
 }
 .tools-bar {
     position: fixed;
-    top: 160px;
+    top: 200px;
     width: calc(60% - 40px);
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
@@ -625,5 +670,12 @@ textarea {
 }
 .main-content div {
     float: left;
+}
+.main /deep/ .is-focus .el-input__inner{
+    border: 1px solid rgb(2, 133, 21);
+}
+
+.el-scrollbar .el-select-dropdown__item.selected{
+    color: rgb(2, 133, 21)
 }
 </style>
