@@ -299,7 +299,7 @@ export default {
             }
             if(newLabels.length){
                 await addNewLabels({
-                    newLabels 
+                    newLabels: [...newLabels] 
                 })
             }
             console.log('selected labels:',this.selectedLabels,'new label(s)',newLabels)
