@@ -33,7 +33,7 @@ router.post('/uploadArticle', function (req, res) {
     } else {
         //修改
         console.log(`update: id=${req.body.id}`)
-        db.query('update article set title=?,front=?,content=?,time=?,label=? where id = ?', [req.body.title, req.body.front, req.body.content, req.body.time, req.body.lebel, req.body.id - 0], rows => {
+        db.query('update article set title=?,front=?,content=?,time=?,label=? where id = ?', [req.body.title, req.body.front, req.body.content, req.body.time, req.body.label, req.body.id - 0], rows => {
             res.json({
             msg: '更新成功！',
             err: 0,
@@ -53,12 +53,16 @@ router.get('/delArticle', (req, res) => {
     })
 })
 
-// router.get('/addLabels', (req, res) => {
-//     console.log('changeAllLabels')
-//     db.query('update article set deleted=1 where id=?', [req.query.id - 0], rows => {
-//         res.json({
-//             msg: '删除成功！',
-//             err: 0
-//         })
-//     })
-// })
+router.get('/addNewLabels', (req, res) => {
+    console.log('changeAllLabels')
+    console.log(req.query.newLabels)
+    req.query.newLabels.forEach(item => {
+        db.query('insert into labels values (null,?)', [item], rows => {
+            console.log('add label: ',item)
+        })
+    })
+    res.json({
+        err: 0,
+        msg: 'Add labels sucessfully!'
+    })
+})
