@@ -56,12 +56,19 @@ router.get('/delArticle', (req, res) => {
 router.get('/addNewLabels', (req, res) => {
     console.log('changeAllLabels')
     console.log(req.query.newLabels)
-    let newLabels=[...req.query.newLabels]
-    newLabels.forEach(item => {
-        db.query('insert into labels values (null,?)', [item], rows => {
+    if(req.query.newLabels instanceof Array){
+        req.query.newLabels.forEach(item => {
+            db.query('insert into labels values (null,?)', [item], rows => {
+                console.log('add label: ',item)
+            })
+        })
+    }
+    else {
+        
+        db.query('insert into labels values (null,?)', [req.query.newLabels], rows => {
             console.log('add label: ',item)
         })
-    })
+    }
     res.json({
         err: 0,
         msg: 'Add labels sucessfully!'
