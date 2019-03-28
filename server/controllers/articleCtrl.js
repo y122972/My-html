@@ -56,7 +56,8 @@ router.get('/delArticle', (req, res) => {
 router.get('/addNewLabels', (req, res) => {
     console.log('changeAllLabels')
     console.log(req.query.newLabels)
-    req.query.newLabels.forEach(item => {
+    let newLabels=[...req.query.newLabels]
+    newLabels.forEach(item => {
         db.query('insert into labels values (null,?)', [item], rows => {
             console.log('add label: ',item)
         })
