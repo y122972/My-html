@@ -66,7 +66,7 @@ router.get('/addNewLabels', (req, res) => {
     else {
         
         db.query('insert into labels values (null,?)', [req.query.newLabels], rows => {
-            console.log('add label: ',item)
+            console.log('add label: ',req.query.newLabels)
         })
     }
     res.json({
