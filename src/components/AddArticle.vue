@@ -254,6 +254,7 @@ export default {
                 this.article.title = result.data[0].title
                 this.content = result.data[0].content
                 this.dialog.visible = false
+                this.selectedLabels=result.data[0].label.split(',')
             } else {
                 // delete 
                 let result = await delArticle({ id: row.id })
@@ -280,11 +281,7 @@ export default {
             this.article.total = result.data[1][0].total
         },
         async upload () {
-            if(this.selectedLabels==''){
-                this.article.label=this.initAllLabels.join(',')
-            } else {
-                this.article.label=this.selectedLabels.join(',')
-            }
+            this.article.label=this.selectedLabels.join(',')
             
             let result = await uploadArticle({
                 id: this.article.id,
@@ -682,5 +679,9 @@ textarea {
 
 .el-scrollbar .el-select-dropdown__item.selected{
     color: rgb(2, 133, 21)
+}
+
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+    background-color: rgba(2,133,21,.07);
 }
 </style>
