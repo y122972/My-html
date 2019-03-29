@@ -280,7 +280,12 @@ export default {
             this.article.total = result.data[1][0].total
         },
         async upload () {
-            this.article.label=this.selectedLabels.join(',')
+            if(this.selectedLabels==''){
+                this.article.label=this.initAllLabels.join(',')
+            } else {
+                this.article.label=this.selectedLabels.join(',')
+            }
+            
             let result = await uploadArticle({
                 id: this.article.id,
                 title: this.article.title,
