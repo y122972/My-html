@@ -137,7 +137,12 @@ export default {
                 id: this.$route.query.id
             })
             this.article = result.data[0]
-            this.article.labels=this.article.label.split(',')
+            if(this.article.label.length){
+                this.article.labels=this.article.label.split(',')
+            }
+            else {
+                this.article.labels=[]
+            }
             console.log('article',this.article)
             this.loading=false
         },
