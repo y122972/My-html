@@ -99,6 +99,7 @@ export default {
         //  不能在这改变当前页，因为页面加载完就改变当前页el-pagination反应不过来，不知道总共有多少页啥的
         this.getList(this.curArticlePage-1)
         console.log(this.list, 'list')
+        
     },
     components: {
         Loading,

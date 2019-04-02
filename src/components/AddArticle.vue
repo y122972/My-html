@@ -254,7 +254,12 @@ export default {
                 this.article.title = result.data[0].title
                 this.content = result.data[0].content
                 this.dialog.visible = false
-                this.selectedLabels=result.data[0].label.split(',')
+                if(result.data[0].label.length){
+                    this.selectedLabels=result.data[0].label.split(',')
+                } else {
+                    this.selectedLabels=[]
+                }
+                console.log(this.selectedLabels)
             } else {
                 // delete 
                 let result = await delArticle({ id: row.id })
@@ -320,6 +325,12 @@ export default {
         },
         dialogConfirm () {
             // 弹出框确认函数，只有插图片和链接有弹出框，
+            console.log(this.dialog.title)
+            if (this.dialog.title === "展示内容") {
+                this.mainCon.innerHTML = this.dialog.code
+                this.dialog.visible = false
+                return 
+            }
             if (
                 this.selection.parentNode.nodeName != "DIV" ||
                 this.selection.parentNode.className != "" ||
@@ -373,8 +384,6 @@ export default {
                     waitingIns,
                     this.selection.selectedNode
                 )
-            } else if (this.dialog.title === "展示内容") {
-                this.mainCon.innerHTML = this.dialog.code
             } else {
                 //插入代码
                 waitingIns = document.createElement("code")
