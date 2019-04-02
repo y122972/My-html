@@ -219,7 +219,8 @@ export default {
                     desc: "修改文章"
                 }
             ],
-            listPage: 1
+            listPage: 1,
+            pageSize: 10,
         }
     },
     methods: {
@@ -231,7 +232,7 @@ export default {
         pageChange (page) {
             //console.log(page)
             this.listPage=page
-            this.getList(page - 1)
+            this.getList()
 
         },
         async getAllLabels (){
@@ -277,9 +278,10 @@ export default {
                 type: "warning"
             })
         },
-        async getList (page = 0, pageSize = 10) {
+        async getList () {
             this.loading=true
-            let result = await getArticleList({ page, pageSize })
+            
+            let result = await getArticleList({ page:this.listPage-1, pageSize: this.pageSize })
             //console.log(result.data)
             this.loading=false
             this.articleList = result.data[0]
