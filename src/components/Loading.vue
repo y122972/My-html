@@ -1,15 +1,15 @@
 <template>
     <div class="main loading-text">
-        <span>L </span>
-        <span>o </span>
-        <span>a </span>
-        <span>d </span>
-        <span>i </span>
-        <span>n </span>
-        <span>g </span>
-        <span>· </span>
-        <span>· </span>
-        <span>· </span>
+        <span class="point">L </span>
+        <span class="point">o </span>
+        <span class="point">a </span>
+        <span class="point">d </span>
+        <span class="point">i </span>
+        <span class="point">n </span>
+        <span class="point">g </span>
+        <span class="point">· </span>
+        <span class="point">· </span>
+        <span class="point">· </span>
     </div>
 </template>
 
@@ -21,35 +21,39 @@
                 scaleNum: 2.2,
                 limitTime: 5000,
                 timer: null,
+                startTime: 0,
             }
         },
         methods: {
             scale(node) {
-                setTimeout(() => {
-                    node.style.transform=`scale(${this.scaleNum})`
-                }, 10);
+                // setTimeout(() => {
+                    
+                // }, 0);
+                node.style.transform=`scale(${this.scaleNum})`
             },
             unscale(node) {
                 node.style.transform='scale(1)'
             },
-            
-        },
-        mounted () {
-            let startTime=new Date().getTime()
-            let list = document.querySelectorAll('span')
-            let len = list.length
-            this.scale(list[0])
-            this.timer = setInterval(()=>{
+            change(list){
                 this.unscale(list[this.curBig])
                 this.curBig++
-                this.curBig%=len
-                console.log('---')
+                this.curBig%=list.length
+                console.log('Loading...')
                 this.scale(list[this.curBig])
-                if(new Date().getTime()-startTime>this.limitTime) {
+                if(new Date().getTime()-this.startTime>this.limitTime) {
                     clearInterval(this.timer)
                     this.timer=null
                     document.querySelector('.loading-text').innerHTML='加载失败，请刷新！'
                 }
+            }
+        },
+        mounted () {
+            this.startTime=new Date().getTime()
+            let list = document.querySelectorAll('span.point')
+            this.curBig=list.length-1
+            this.change(list)
+            this.timer = setInterval(()=>{
+                this.change(list)
             },200)
         },
         beforeDestroy(){
