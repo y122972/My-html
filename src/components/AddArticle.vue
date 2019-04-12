@@ -485,13 +485,24 @@ export default {
 
             if (toolname === "粗体" || toolname === "斜体") {
                 if (range.startContainer != range.endContainer) {
-                    this.err("不可这样修改！")
+                    this.err("不可跨标签修改！")
                     return
                 }
                 let waitingStyle = ""
 
-                let frontDom = this.selection.selectedNode.cloneNode(false)
-                let midDom = this.selection.selectedNode.cloneNode(false)
+                //let frontDom = this.selection.selectedNode.cloneNode(false)
+                //let midDom = this.selection.selectedNode.cloneNode(false)
+                let frontDom= document.createElement('span')
+                let midDom = document.createElement('span')
+                if(this.selection.selectedNode.innerText.length==Math.abs( this.selection.end-this.selection.start)){
+                    if (toolname === "粗体") {
+                        this.selection.selectedNode.style.fontWeight = "bold"
+                    } else {
+                        this.selection.selectedNode.style.fontStyle = "oblique"
+                    }
+                    return 
+                }
+                
                 if (toolname === "粗体") {
                     midDom.style.fontWeight = "bold"
                 } else {
