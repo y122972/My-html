@@ -1,14 +1,14 @@
-const express=require('express')
-const path=require('path')
-const router=express.Router()
+const express = require('express')
+const path = require('path')
+const router = express.Router()
 const db = require('../models/database')
 
-module.exports=router
+module.exports = router
 
 
-router.use('/',(req,res,next)=>{
-    console.log('sessionid',req.session.sessionid)
-    if(!req.session.sessionid){
+router.use('/', (req, res, next) => {
+    console.log('sessionid', req.session.sessionid)
+    if (!req.session.sessionid) {
         res.send({
             err: 1,
             msg: 'No permission!'
@@ -16,7 +16,7 @@ router.use('/',(req,res,next)=>{
     } else {
         next()
     }
-    
+
 })
 
 router.post('/uploadArticle', function (req, res) {
@@ -25,9 +25,9 @@ router.post('/uploadArticle', function (req, res) {
         console.log(`upload: id=${req.body.id},title=${req.body.title},label=${req.body.label}`)
         db.query('insert into article values(?,?,?,?,?,?,?,?)', [null, req.body.title, req.body.front, req.body.content, req.body.author, req.body.time, req.body.label, 0], rows => {
             res.json({
-            msg: '上传成功！',
-            err: 0,
-            id: rows.insertId
+                msg: '上传成功！',
+                err: 0,
+                id: rows.insertId
             })
         })
     } else {
@@ -35,13 +35,13 @@ router.post('/uploadArticle', function (req, res) {
         console.log(`update: id=${req.body.id}`)
         db.query('update article set title=?,front=?,content=?,time=?,label=? where id = ?', [req.body.title, req.body.front, req.body.content, req.body.time, req.body.label, req.body.id - 0], rows => {
             res.json({
-            msg: '更新成功！',
-            err: 0,
-            id: req.body.id
+                msg: '更新成功！',
+                err: 0,
+                id: req.body.id
             })
         })
     }
-  });
+});
 
 router.get('/delArticle', (req, res) => {
     console.log('delect: id = ' + req.query.id)
@@ -56,17 +56,17 @@ router.get('/delArticle', (req, res) => {
 router.get('/addNewLabels', (req, res) => {
     console.log('changeAllLabels')
     console.log(req.query.newLabels)
-    if(req.query.newLabels instanceof Array){
+    if (req.query.newLabels instanceof Array) {
         req.query.newLabels.forEach(item => {
             db.query('insert into labels values (null,?)', [item], rows => {
-                console.log('add label: ',item)
+                console.log('add label: ', item)
             })
         })
     }
     else {
-        
+
         db.query('insert into labels values (null,?)', [req.query.newLabels], rows => {
-            console.log('add label: ',req.query.newLabels)
+            console.log('add label: ', req.query.newLabels)
         })
     }
     res.json({
