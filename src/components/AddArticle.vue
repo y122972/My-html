@@ -107,7 +107,7 @@
                  contenteditable="true"
                  data-text="输入留言"
                  spellcheck="false"
-                 v-html="content">
+                 v-html="initContent">
             </div>
         </div>
     </div>
@@ -152,7 +152,8 @@ export default {
                 ],
                 selectedLan: ""
             },
-            content: `<div><span><br/></span></div>`,
+            initContent: `<div><span><br/></span></div>`,
+            lastContent: '',
             article: {
                 id: null,
                 title: "",
@@ -160,6 +161,7 @@ export default {
                 total: 1000
             },
             autoSave: null,
+            startAutoSave: false,
             selection: {
                 string: "",
                 start: 0,
@@ -245,15 +247,13 @@ export default {
         },
         async articleOperate (index, row, oprt) {
             // oprt == 0, Edite,else , delete
-            //console.log(index, row, oprt)
             if (oprt === 0) {
                 // Edite
                 this.article.id = row.id
                 // Change current article id , so to updating instead of uploading
                 let result = await getArticle({ id: row.id })
-                //console.log(result.data)
                 this.article.title = result.data[0].title
-                this.content = result.data[0].content
+                this.mainCon.innerHTML = result.data[0].content
                 this.dialog.visible = false
                 if(result.data[0].label.length){
                     this.selectedLabels=result.data[0].label.split(',')
@@ -288,8 +288,12 @@ export default {
             this.article.total = result.data[1][0].total
         },
         async upload () {
+
             this.article.label=this.selectedLabels.join(',')
             
+            this.lastContent = this.mainCon.innerHTML //存一下上次保存的内容，供自动保存来比较
+            this.startAutoSave = true
+
             let result = await uploadArticle({
                 id: this.article.id,
                 title: this.article.title,
@@ -590,12 +594,11 @@ export default {
     mounted () {
         //this.getPermission()
         this.mainCon = document.querySelector(".main-content")
-        // this.autoSave=setInterval(()=>{
-        //     this.$message({
-        //         message: '保存成功！',
-        //         type: 'success'
-        //     })
-        // },10000)
+        this.autoSave = setInterval(()=>{
+            if(this.startAutoSave && this.lastContent != this.mainCon.innerHTML){
+                this.upload()
+            }
+        },10000)
         this.getAllLabels()
         document.onscroll=()=>{
             if(document.documentElement.scrollTop>90){
@@ -610,6 +613,8 @@ export default {
     },
     beforeDestroy(){
         document.onscroll=null
+        clearInterval(this.autoSave)
+        this.autoSave = null
     },
     components: {
         Loading,
