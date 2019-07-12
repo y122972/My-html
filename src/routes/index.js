@@ -10,38 +10,42 @@ Vue.use(VueRouter)
 // import Login from '../components/Login.vue'
 // import Layout from '../components/Layout.vue'
 
-const Home = ()=>import('../components/Home.vue')
-const About = ()=>import('../components/About.vue')
-const AddArticle = ()=>import('../components/AddArticle.vue')
-const Article = ()=>import('../components/Article.vue')
-const Login = ()=>import('../components/Login.vue')
-const Layout = ()=>import('../components/Layout.vue')
+const Home = () => import('../components/Home.vue')
+const About = () => import('../components/About.vue')
+const AddArticle = () => import('../components/AddArticle.vue')
+const Article = () => import('../components/Article.vue')
+const Login = () => import('../components/Login.vue')
+const Layout = () => import('../components/Layout.vue')
+const ArticleCtrl = () => import('../pages/ArticleCtrl.vue')
 
-export const routes = [ {
+export const routes = [{
     path: '/',
     component: Layout,
     children: [{
         name: 'article',
         path: '/article/:title',
         component: Article
-    },{
+    }, {
         path: '/about',
         component: About
-    },{
+    }, {
         path: '/home',
         component: Home
-    },{
+    }, {
         path: '/',
         component: Home
     }, {
         path: '/addarticle',
         component: AddArticle
-    }, ]
     }, {
+        path: '/articleCtrl',
+        component: ArticleCtrl
+    },]
+}, {
     path: '/login',
     component: Login
 }]
 
 export default new VueRouter({
-  routes
+    routes
 })
