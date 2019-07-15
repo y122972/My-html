@@ -23,6 +23,7 @@
 
 <script>
     import './fonts/iconfont.css'
+    import '../../assets/js/md5'
     export default {
         data() {
             return {
@@ -93,6 +94,7 @@
             }
         },
         mounted () {
+            console.log(md5('12312452345'))
             console.log(this.$el)
             let el = this.$el
             let contentArea = el.querySelector('.content')

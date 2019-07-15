@@ -22,6 +22,7 @@
 <script>
     import {login} from '../api'
     import Loading from './Loading2.vue'
+    import '../assets/js/md5'
     export default {
         data() {
             return {
@@ -39,14 +40,17 @@
                 this.tipMsg='Logining...'
                 let data={
                     name: this.loginData.name,
-                    pwd: this.loginData.pwd
                 }
-                this.loginData.pwd=''
+                let pwd = this.loginData.pwd
+                this.loginData.pwd = ''
                 let res = await login(data)
+                console.log(res.data.rand + pwd)
+                data.pwd = md5(res.data.rand + pwd)
+                res = await login(data)
                 if(!res.data.err) {
                     this.$router.go(-1)
                 } else {
-                    this.tipMsg=res.data.msg
+                    this.tipMsg = res.data.msg
                 }
             }
         },
