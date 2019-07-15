@@ -3,6 +3,7 @@
         <Editor 
             title="123"
             size="big"
+            @upload="upload"
         />
     </div>
 </template>
@@ -16,7 +17,9 @@
             }
         },
         methods: {
-            
+            upload(content) {
+                console.log('upload', content)
+            }
         },
         mounted () {
             
