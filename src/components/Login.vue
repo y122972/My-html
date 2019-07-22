@@ -63,7 +63,25 @@
         },
         components: {
             Loading,
-        }
+        },
+        beforeCreate() {
+            console.log('beforeCreate data = ' + this.loginData)
+            console.log(this._data)
+        },
+        created() {
+            console.log('beforeCreate data = ' + this.loginData)
+            console.log(this._data)
+        },
+        beforeMount() {
+            console.log('beforeMount: ')
+            console.log('this.$el = ' + this.$el)
+            console.log('')
+        },
+        mounted() {
+            console.log('mounted: ')
+            console.log('this.$el = ' + this.$el)
+            console.log('')
+        },
     }
 </script>
 

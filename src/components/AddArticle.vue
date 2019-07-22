@@ -305,7 +305,7 @@ export default {
             })
             //console.log(result)
             let newLabels=[]
-            for(let i=0;i<this.selectedLabels.length;i++){
+            for(let i = 0; i<this.selectedLabels.length; i++) {
                 if(!this.initAllLabels.includes(this.selectedLabels[i])){
                     newLabels.push(this.selectedLabels[i])
                 }
