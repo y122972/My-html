@@ -2,5 +2,5 @@
   "presets": [
     ["@babel/preset-env", { "modules": false }]
   ],
-  "plugins": ["@babel/transform-runtime","@babel/plugin-syntax-dynamic-import"]
+  "plugins": ["@babel/transform-runtime","@babel/plugin-syntax-dynamic-import","@babel/plugin-proposal-class-properties"]
 }

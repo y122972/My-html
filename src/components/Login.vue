@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import {login} from '../api'
+    import {login, getPermission} from '../api'
     import Loading from './Loading2.vue'
     import '../assets/js/md5'
     export default {
@@ -52,6 +52,8 @@
                 } else {
                     this.tipMsg = res.data.msg
                 }
+                res = await getPermission() 
+                console.log(res, 'permission')
             }
         },
         computed: {
