@@ -1,5 +1,5 @@
 <template>
-    <div id="app" @click="mouseClick">
+    <div id="app">
         <router-view></router-view>
     </div>
 </template>

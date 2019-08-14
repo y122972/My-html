@@ -9,6 +9,7 @@ Vue.use(VueRouter)
 // import Article from '../components/Article.vue'
 // import Login from '../components/Login.vue'
 // import Layout from '../components/Layout.vue'
+// import ArticleCtrl from '../pages/ArticleCtrl.vue'
 
 const Home = () => import('../components/Home.vue')
 const About = () => import('../components/About.vue')

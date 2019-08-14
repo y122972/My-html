@@ -78,16 +78,29 @@
                 filterable
                 allow-create
                 collapse-tags
-                @change="labelsChange"
                 placeholder="请选择文章标签">
                     <el-option
                     v-for="(item,key) in allLabels"
                     :key="key"
                     :label="item"
-                    :value="item">
+                    :value="key">
                     </el-option>
             </el-select>
-            <div class="tools-bar">
+            <div class="select" v-if="selectOptions.length">
+                <j-select 
+                    v-model="selectedLabels"
+                    :options="selectOptions"
+                    multiple
+                />
+            </div>
+            
+            <j-input 
+                type="text"
+                v-model="inputValue"
+                placeholder="请输入"
+                :disabled="true"
+            />
+            <!-- <div class="tools-bar">
                 <ul>
                     <li class="tool"
                         v-for="(item,key) in tools"
@@ -102,7 +115,7 @@
                         </el-tooltip>
                     </li>
                 </ul>
-            </div>
+            </div> -->
             <div class="main-content content"
                  contenteditable="true"
                  data-text="输入留言"
@@ -117,10 +130,18 @@
 import hljs from "highlight.js"
 import { uploadArticle, getArticleList, getArticle, delArticle,getPermission,getAllLabels ,addNewLabels} from "../api"
 import Loading from './Loading'
+import JSelect from './JSelect'
+import JInput from './JInput'
 export default {
     name: "AddArticle",
+    updated () {
+        console.log(this.selectValue)
+    },
     data () {
         return {
+            selectOptions: [],
+            selectValue: [],
+            inputValue: '',
             allLabels: [],
             initAllLabels: [],
             selectedLabels: [],
@@ -226,11 +247,7 @@ export default {
         }
     },
     methods: {
-        labelsChange(curLabel){
-            // 改变当前所有的label
-            let allLabels=new Set([...this.allLabels,...this.selectedLabels])
-            this.allLabels=[...allLabels]
-        },
+        
         pageChange (page) {
             //console.log(page)
             this.listPage=page
@@ -241,8 +258,13 @@ export default {
             let res = await getAllLabels()
             res.data.forEach(item => {
                 this.allLabels.push(item.label)
+                this.selectOptions.push({
+                    value: item.id,
+                    label: item.label,
+                })
             })
             this.initAllLabels=[...this.allLabels] //用于添加新label
+            console.log(this.selectOptions)
             console.log('all labels',res.data)
         },
         async articleOperate (index, row, oprt) {
@@ -600,16 +622,19 @@ export default {
             }
         },10000)
         this.getAllLabels()
-        document.onscroll=()=>{
-            if(document.documentElement.scrollTop>90){
-                document.querySelector('.tools-bar').style.top='70px'
-            document.querySelector('.tools-bar').classList.add('fixed')
+        // document.onscroll=()=>{
+        //     if(document.documentElement.scrollTop>90){
+        //         document.querySelector('.tools-bar').style.top='70px'
+        //     document.querySelector('.tools-bar').classList.add('fixed')
             
-            } else {
-                document.querySelector('.tools-bar').classList.remove('fixed')
-                document.querySelector('.tools-bar').style.top=`${200-document.documentElement.scrollTop}px`
-            }
-        }
+        //     } else {
+        //         document.querySelector('.tools-bar').classList.remove('fixed')
+        //         document.querySelector('.tools-bar').style.top=`${200-document.documentElement.scrollTop}px`
+        //     }
+        // }
+    },
+    updated () {
+        console.log(this.selectedLabels)
     },
     beforeDestroy(){
         document.onscroll=null
@@ -618,6 +643,8 @@ export default {
     },
     components: {
         Loading,
+        'j-select': JSelect,
+        'j-input': JInput,
     }
 } 
 </script>
@@ -640,7 +667,7 @@ export default {
 }
 .tools-bar {
     position: fixed;
-    top: 200px;
+    top: 400px;
     width: calc(60% - 40px);
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
@@ -684,7 +711,7 @@ textarea {
     width: 100%;
     border: 1px solid rgb(2, 133, 21);
     outline: none;
-    margin-top: 70px;
+    margin-top: 170px;
     padding: 15px;
     white-space: pre-wrap;
     word-break: break-all;
@@ -710,5 +737,8 @@ textarea {
 
 .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
     background-color: rgba(2,133,21,.07);
+}
+.select {
+    width: 300px;
 }
 </style>
